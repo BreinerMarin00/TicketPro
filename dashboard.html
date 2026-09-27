@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicketPro - Panel de Inicio</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <!-- Barra superior simple -->
+    <header class="navbar">
+      <a href="dashboard.html" class="nav-brand">
+        <!-- Icono Ticket TicketPro -->
+        <svg
+          class="nav-brand-icon"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="7"
+            y="13"
+            width="34"
+            height="22"
+            rx="4"
+            transform="rotate(-15 24 24)"
+            stroke="#0047ba"
+            stroke-width="4"
+            fill="none"
+          />
+          <path
+            d="M12 18L18 34"
+            stroke="#0047ba"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-dasharray="2 3"
+          />
+          <circle cx="34" cy="21" r="2.5" fill="#0047ba" />
+        </svg>
+        <span class="nav-brand-title">TicketPro</span>
+      </a>
+
+      <div class="nav-user">
+        <span class="user-greeting"
+          >Hola,
+          <span class="user-name" id="userNameDisplay">Usuario</span></span
+        >
+        <a href="#" id="logoutBtn" class="btn-logout">Cerrar sesión</a>
+      </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="main-container">
+      <!-- Título y Botón Principal -->
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>Panel de Tickets</h2>
+          <p>Gestiona y da seguimiento a tus solicitudes de soporte</p>
+        </div>
+        <button class="btn-new-ticket" id="btnOpenModal">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Nuevo Ticket
+        </button>
+      </div>
+
+      <!-- 3 Tarjetas de Resumen Sencillo -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-info">
+            <span>Total de Tickets</span>
+            <h3 id="countTotal">0</h3>
+          </div>
+          <div class="stat-icon stat-total">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-info">
+            <span>Tickets Abiertos</span>
+            <h3 id="countOpen">0</h3>
+          </div>
+          <div class="stat-icon stat-open">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-info">
+            <span>Tickets Resueltos</span>
+            <h3 id="countClosed">0</h3>
+          </div>
+          <div class="stat-icon stat-closed">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lista de Tickets -->
+      <section class="tickets-card">
+        <div class="tickets-toolbar">
+          <div class="filter-group">
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="abiertos">
+              Abiertos / En proceso
+            </button>
+            <button class="filter-btn" data-filter="resueltos">
+              Resueltos
+            </button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="ticket-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Asunto</th>
+                <th>Prioridad</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="ticketsTableBody">
+              <!-- Filas dinámicas generadas por dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Estado vacío si no hay tickets en el filtro -->
+        <div id="emptyState" class="empty-state" style="display: none">
+          <svg
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#94a3b8"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          <p>No se encontraron tickets en esta categoría.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal Simple para Crear Nuevo Ticket -->
+    <div class="modal-overlay" id="ticketModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Crear nuevo ticket</h3>
+          <button type="button" class="btn-close-modal" id="btnCloseModal">
+            &times;
+          </button>
+        </div>
+        <form id="newTicketForm">
+          <div class="form-group-simple">
+            <label for="ticketTitle">Título del problema</label>
+            <input
+              type="text"
+              id="ticketTitle"
+              class="form-control-simple"
+              placeholder="Ej: No funciona el acceso al correo"
+              required
+            />
+          </div>
+          <div class="form-group-simple">
+            <label for="ticketPriority">Prioridad</label>
+            <select id="ticketPriority" class="form-control-simple">
+              <option value="Baja">Baja</option>
+              <option value="Media" selected>Media</option>
+              <option value="Alta">Alta</option>
+            </select>
+          </div>
+          <div class="form-group-simple">
+            <label for="ticketDesc">Descripción detallada</label>
+            <textarea
+              id="ticketDesc"
+              class="form-control-simple"
+              placeholder="Explica brevemente qué ocurre..."
+            ></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="btnCancelModal">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-new-ticket">Guardar Ticket</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer-simple">
+      TicketPro &copy; 2026 - Sistema de gestión de tickets
+    </footer>
+
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>
